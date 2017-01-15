@@ -1,0 +1,34 @@
+Segue algumas considerações sobre os itens pedidos no teste
+
+
+Função 1 - Integração SSH
+
+Para realizar a integração SSH, utilizei a biblioteca PHPSecLib por alguns motivos: é orientada a objetos, totalmente feito em PHP e ser fácil de importar e utilizar.
+Fiz uma classe chamada Conexao, para que pudesse ter como atributo o que for necessário para realizar a conexão, neste caso o IP, o usuário e a senha. Com estes atributos, é criada uma conexão que pode chamar o método exec(), que realiza o comando que o usuário digitou.
+Neste item, eu fiz a página ssh_acesso.php, onde o usuário entra com o ip, usuário e senha, e caso haja algum problema, é retornada esta mesma página com o problema escrito em vermelho ("Falha na conexão" ou "Usuário e/ou senha errado(s)"). Caso tudo esteja certo e a página ssh_login.php consiga realizar a conexão, é aberta a página ssh.php, que o usuário pode inserir os comandos que deseja executar. Ao clicar em "Executar", o comando é processado na página ssh_comando.php e então é retornada a esta mesma página, com o resultado do comando escrito na textarea. Cada comando realizado é colocado lá, sem apagar o anterior, simulando um terminal.
+O botão sair limpa os atributos que foram passados anteriormente.
+
+Realizei testes com um servidor Debian em máquina virtual tanto no próprio computador que rodava a aplicação como em outro na mesma rede, e tudo funcionando de acordo.
+
+As páginas mencionadas que fazem o processo (ssh_login, ssh_comando, ssh_sair) estão na pasta _functions, e a classe Conexao está em _src, todos os arquivos estão comentados para melhor compreensão de quem for ler.
+
+
+Função 2 - Criptografia
+
+Para a parte de criptografia, utilizei as funções openssl_encrypt por serem bem simples de se usar, e os métodos adicionais mcrypt_create_iv que gera um iv para criptografar, e base64_encode para codificar o texto criptografado com MIME base64.
+Também incluí a opção de descriptografar um texto cifrado pela própria aplicação, no menu é possível escolher "Criptografia" ou "Descriptografia", ambas no mesmo estilo, uma página que pede para inserir o texto a ser cifrado/decifrado e ao confirmar no botão, é passado para a página criptografar_texto.php ou descriptografar_texto.php, que instanciam um objeto Criptografia e tem os métodos para realizar a cifragem/decifragem, após o processo, é chamada a página que vai exibir o resultado (descriptografia_resultado.php, ou criptografia_resultado.php).
+
+As páginas mencionadas que fazem o processo (criptografar_texto e descriptografar_texto) também estão em _functions, e a classe Criptografia, também se encontra em _src. Todos os arquivos estão comentados.
+
+
+
+
+Considerações extras:
+
+Todos os arquivos de apresentação estão na raiz do projeto, os arquivos de processamento estão em _functions e as classes estão em _src.
+Todas as páginas tem verificação antes de enviar a informação (se a textbox está vazia), e também segurança para evitar, por exemplo que passe para a página
+de comandos ssh, sem ter feito o login.
+Clicar na banner abre uma nova aba para o site da MT4 Networks.
+
+ 
+
